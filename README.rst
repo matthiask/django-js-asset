@@ -12,6 +12,8 @@ Use this to insert a script tag via ``forms.Media`` containing additional
 attributes (such as ``id`` and ``data-*`` for CSP-compatible data
 injection.)::
 
+    from js_asset import JS
+
     media.add_js([
         JS('asset.js', {
             'id': 'asset-script',
@@ -29,3 +31,9 @@ The attributes are automatically escaped. The data attributes may now be
 accessed inside ``asset.js``::
 
     var answer = document.querySelector('#asset-script').dataset.answer;
+
+Also, because the implementation of ``static`` differs between supported
+Django versions (older do not take the presence of
+``django.contrib.staticfiles`` in ``INSTALLED_APPS`` into account), a
+``js_asset.static`` function is provided which does the right thing
+automatically.

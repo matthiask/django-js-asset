@@ -5,7 +5,10 @@ from django.forms.utils import flatatt
 from django.utils.html import format_html, mark_safe
 
 
-def _static_url(path):
+__all__ = ('JS', 'static')
+
+
+def static(path):
     # Django >= 1.10 does this automatically. We can revert to simply using
     # static(path) then.
     if apps.is_installed('django.contrib.staticfiles'):
@@ -13,6 +16,8 @@ def _static_url(path):
 
         return staticfiles_storage.url(path)
     else:
+        from django.templatetags.static import static
+
         return static(path)
 
 
@@ -51,6 +56,6 @@ class JS(object):
     def __html__(self):
         return format_html(
             '{}"{}',
-            _static_url(self.js),
+            static(self.js),
             mark_safe(flatatt(self.attrs)),
         ).rstrip('"')
