@@ -1,0 +1,6 @@
+include LICENSE
+include MANIFEST.in
+include README.rst
+recursive-include js_asset/static *
+recursive-include js_asset/locale *
+recursive-include js_asset/templates *
