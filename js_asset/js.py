@@ -58,4 +58,4 @@ class JS(object):
             '{}"{}',
             static(self.js),
             mark_safe(flatatt(self.attrs)),
-        ).rstrip('"')
+        )[:-1] if self.attrs else static(self.js)
