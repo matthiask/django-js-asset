@@ -51,5 +51,4 @@ setup(
         'coverage',
         'pytz',
     ],
-    test_suite='testapp.runtests.runtests',
 )
