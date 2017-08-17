@@ -27,7 +27,7 @@ class JS(object):
     attributes (such as ``id`` and ``data-*`` for CSP-compatible data
     injection.)::
 
-        media.add_js([
+        forms.Media(js=[
             JS('asset.js', {
                 'id': 'asset-script',
                 'data-answer': '"42"',

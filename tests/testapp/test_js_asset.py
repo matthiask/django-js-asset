@@ -8,18 +8,19 @@ from django.test import TestCase
 
 class AssetTest(TestCase):
     def test_asset(self):
-        media = Media()
-        media.add_css({
-            'print': ('app/print.css',),
-        })
-        media.add_js((
-            'app/test.js',
-            JS('app/asset.js', {
-                'id': 'asset-script',
-                'data-the-answer': 42,
-            }),
-            JS('app/asset-without.js', {}),
-        ))
+        media = Media(
+            css={
+                'print': ['app/print.css'],
+            },
+            js=[
+                'app/test.js',
+                JS('app/asset.js', {
+                    'id': 'asset-script',
+                    'data-the-answer': 42,
+                }),
+                JS('app/asset-without.js', {}),
+            ],
+        )
         html = '%s' % media
 
         print(html)

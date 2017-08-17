@@ -14,7 +14,7 @@ injection.)::
 
     from js_asset import JS
 
-    media.add_js([
+    forms.Media(js=[
         JS('asset.js', {
             'id': 'asset-script',
             'data-answer': '"42"',
