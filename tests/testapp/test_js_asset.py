@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
-from js_asset.js import JS
-
 from django.forms import Media
 from django.test import TestCase
+
+from js_asset.js import JS
 
 
 class AssetTest(TestCase):
@@ -23,7 +23,7 @@ class AssetTest(TestCase):
         )
         html = '%s' % media
 
-        print(html)
+        # print(html)
 
         self.assertInHTML(
             '<link href="/static/app/print.css" type="text/css" media="print" rel="stylesheet" />',  # noqa
