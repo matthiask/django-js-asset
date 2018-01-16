@@ -25,9 +25,6 @@ setup(
         exclude=['tests']
     ),
     include_package_data=True,
-    install_requires=[
-        # 'Django>=1.9',
-    ],
     classifiers=[
         # 'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -37,10 +34,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
