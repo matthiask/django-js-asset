@@ -43,5 +43,6 @@ Compatibility
 =============
 
 At the time of writing this app is compatible with Django 1.7 and better
-(up to and including the Django master branch, but have a look at the
-`Travis CI build <https://travis-ci.org/matthiask/django-js-asset>`_
+(up to and including the Django master branch), but have a look at the
+`Travis CI build <https://travis-ci.org/matthiask/django-js-asset>`_ for
+definitive answers.
