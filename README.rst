@@ -10,7 +10,9 @@ Usage
 
 Use this to insert a script tag via ``forms.Media`` containing additional
 attributes (such as ``id`` and ``data-*`` for CSP-compatible data
-injection.)::
+injection.):
+
+.. code-block:: python
 
     from js_asset import JS
 
@@ -22,13 +24,17 @@ injection.)::
     ])
 
 The rendered media tag (via ``{{ media.js }}`` or ``{{ media }}`` will
-now contain a script tag as follows, without line breaks::
+now contain a script tag as follows, without line breaks:
+
+.. code-block:: html
 
     <script type="text/javascript" src="/static/asset.js"
         data-answer="&quot;42&quot;" id="asset-script"></script>
 
 The attributes are automatically escaped. The data attributes may now be
-accessed inside ``asset.js``::
+accessed inside ``asset.js``:
+
+.. code-block:: javascript
 
     var answer = document.querySelector('#asset-script').dataset.answer;
 
