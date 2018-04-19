@@ -45,17 +45,19 @@ class JS(object):
 
         var answer = document.querySelector('#asset-script').dataset.answer;
     """
-    def __init__(self, js, attrs):
+    def __init__(self, js, attrs=None, static=True):
         self.js = js
-        self.attrs = attrs
+        self.attrs = attrs or {}
+        self.static = static
 
     def startswith(self, _):
         # Masquerade as absolute path so that we are returned as-is.
         return True
 
     def __html__(self):
+        js = static(self.js) if self.static else self.js
         return format_html(
             '{}"{}',
-            static(self.js),
+            js,
             mark_safe(flatatt(self.attrs)),
-        )[:-1] if self.attrs else static(self.js)
+        )[:-1] if self.attrs else js

@@ -41,3 +41,19 @@ class AssetTest(TestCase):
             '<script type="text/javascript" src="/static/app/asset-without.js"></script>',  # noqa
             html,
         )
+
+    def test_absolute(self):
+        media = Media(
+            js=[
+                JS(
+                    'https://cdn.example.org/script.js',
+                    static=False,
+                ),
+            ],
+        )
+        html = '%s' % media
+
+        self.assertInHTML(
+            '<script type="text/javascript" src="https://cdn.example.org/script.js"></script>',  # noqa
+            html,
+        )
