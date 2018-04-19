@@ -8,6 +8,14 @@ Change log
 ~~~~~~~~~~~~~~~
 
 
+`1.1`_ (2018-04-19)
+~~~~~~~~~~~~~~~~~~~
+
+- Added support for skipping ``static()``, mostly useful when adding
+  external scripts via ``JS()`` (e.g for adding ``defer="defer"``).
+- Made the attributes dictionary optional.
+
+
 `1.0`_ (2018-01-16)
 ~~~~~~~~~~~~~~~~~~~
 
@@ -30,5 +38,6 @@ Change log
 .. _tox: https://tox.readthedocs.io/
 
 .. _0.1: https://github.com/matthiask/django-js-asset/commit/e335c79a87
-.. _1.0: https://github.com/matthiask/django-js-asset/compare/0.1...1.0.0
-.. _Next version: https://github.com/matthiask/django-js-asset/compare/1.0.0...master
+.. _1.0: https://github.com/matthiask/django-js-asset/compare/0.1...1.0
+.. _1.1: https://github.com/matthiask/django-js-asset/compare/1.0...1.1
+.. _Next version: https://github.com/matthiask/django-js-asset/compare/1.1...master
