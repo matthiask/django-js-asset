@@ -17,9 +17,9 @@ injection.):
     from js_asset import JS
 
     forms.Media(js=[
-        JS('asset.js', {
-            'id': 'asset-script',
-            'data-answer': '"42"',
+        JS("asset.js", {
+            "id": "asset-script",
+            "data-answer": "42",
         }),
     ])
 
@@ -29,14 +29,14 @@ now contain a script tag as follows, without line breaks:
 .. code-block:: html
 
     <script type="text/javascript" src="/static/asset.js"
-        data-answer="&quot;42&quot;" id="asset-script"></script>
+        data-answer="42" id="asset-script"></script>
 
 The attributes are automatically escaped. The data attributes may now be
 accessed inside ``asset.js``:
 
 .. code-block:: javascript
 
-    var answer = document.querySelector('#asset-script').dataset.answer;
+    var answer = document.querySelector("#asset-script").dataset.answer;
 
 Also, because the implementation of ``static`` differs between supported
 Django versions (older do not take the presence of
@@ -52,8 +52,8 @@ boolean attributes are not properly supported, so specify them as
 follows::
 
     JS(
-        'https://cdn.example.com/script.js',
-        {'defer': 'defer'},
+        "https://cdn.example.com/script.js",
+        {"defer": "defer"},
         static=False,
     )
 
