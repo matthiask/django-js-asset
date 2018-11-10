@@ -5,13 +5,13 @@ from django.forms.utils import flatatt
 from django.utils.html import format_html, mark_safe
 
 
-__all__ = ('JS', 'static')
+__all__ = ("JS", "static")
 
 
 def static(path):
     # Django >= 1.10 does this automatically. We can revert to simply using
     # static(path) then.
-    if apps.is_installed('django.contrib.staticfiles'):
+    if apps.is_installed("django.contrib.staticfiles"):
         from django.contrib.staticfiles.storage import staticfiles_storage
 
         return staticfiles_storage.url(path)
@@ -45,6 +45,7 @@ class JS(object):
 
         var answer = document.querySelector('#asset-script').dataset.answer;
     """
+
     def __init__(self, js, attrs=None, static=True):
         self.js = js
         self.attrs = attrs or {}
@@ -56,8 +57,8 @@ class JS(object):
 
     def __html__(self):
         js = static(self.js) if self.static else self.js
-        return format_html(
-            '{}"{}',
-            js,
-            mark_safe(flatatt(self.attrs)),
-        )[:-1] if self.attrs else js
+        return (
+            format_html('{}"{}', js, mark_safe(flatatt(self.attrs)))[:-1]
+            if self.attrs
+            else js
+        )

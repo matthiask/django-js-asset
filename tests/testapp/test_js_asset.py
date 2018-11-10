@@ -9,19 +9,14 @@ from js_asset.js import JS
 class AssetTest(TestCase):
     def test_asset(self):
         media = Media(
-            css={
-                'print': ['app/print.css'],
-            },
+            css={"print": ["app/print.css"]},
             js=[
-                'app/test.js',
-                JS('app/asset.js', {
-                    'id': 'asset-script',
-                    'data-the-answer': 42,
-                }),
-                JS('app/asset-without.js', {}),
+                "app/test.js",
+                JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42}),
+                JS("app/asset-without.js", {}),
             ],
         )
-        html = '%s' % media
+        html = "%s" % media
 
         # print(html)
 
@@ -43,15 +38,8 @@ class AssetTest(TestCase):
         )
 
     def test_absolute(self):
-        media = Media(
-            js=[
-                JS(
-                    'https://cdn.example.org/script.js',
-                    static=False,
-                ),
-            ],
-        )
-        html = '%s' % media
+        media = Media(js=[JS("https://cdn.example.org/script.js", static=False)])
+        html = "%s" % media
 
         self.assertInHTML(
             '<script type="text/javascript" src="https://cdn.example.org/script.js"></script>',  # noqa
