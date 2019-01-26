@@ -1,45 +1,61 @@
-language: python
+dist: xenial
 sudo: false
+language: python
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-env:
-  - REQ="Django>=1.7,<1.8"
-  - REQ="Django>=1.8,<1.9"
-  - REQ="Django>=1.9,<1.10"
-  - REQ="Django>=1.10,<1.11"
-  - REQ="Django>=1.11,<2.0"
-  - REQ="Django>=2.0,<2.1"
-  - REQ="Django>=2.1,<2.2"
-  - REQ="https://github.com/django/django/archive/master.zip"
+  - 3.7
 matrix:
-  exclude:
-    - python: "2.7"
+  fast_finish: true
+  include:
+    - python: 3.7
+      env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+    - python: 3.7
+      env: REQ="Django>=2.2a1,<3.0"
+    - python: 3.6
+      env: REQ="Django>=2.2a1,<3.0"
+    - python: 3.5
+      env: REQ="Django>=2.2a1,<3.0"
+    - python: 3.7
+      env: REQ="Django>=2.1,<2.2"
+    - python: 3.7
       env: REQ="Django>=2.0,<2.1"
-    - python: "2.7"
-      env: REQ="Django>=2.1,<2.2"
-    - python: "2.7"
-      env: REQ="https://github.com/django/django/archive/master.zip"
-    - python: "3.4"
-      env: REQ="Django>=2.1,<2.2"
-    - python: "3.4"
-      env: REQ="https://github.com/django/django/archive/master.zip"
-    - python: "3.5"
-      env: REQ="Django>=1.7,<1.8"
-    - python: "3.6"
-      env: REQ="Django>=1.7,<1.8"
-    - python: "3.6"
-      env: REQ="Django>=1.8,<1.9"
-    - python: "3.6"
-      env: REQ="Django>=1.9,<1.10"
-    - python: "3.6"
+    - python: 3.7
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.6
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.5
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.4
+      env: REQ="Django>=1.11,<2.0"
+    - python: 2.7
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.5
       env: REQ="Django>=1.10,<1.11"
-      # Django 1.7 does not support Python 3.5
+    - python: 2.7
+      env: REQ="Django>=1.10,<1.11"
+    - python: 3.5
+      env: REQ="Django>=1.9,<1.10"
+    - python: 2.7
+      env: REQ="Django>=1.9,<1.10"
+    - python: 3.5
+      env: REQ="Django>=1.8,<1.9"
+    - python: 3.4
+      env: REQ="Django>=1.8,<1.9"
+    - python: 2.7
+      env: REQ="Django>=1.8,<1.9"
+    - python: 3.4
+      env: REQ="Django>=1.7,<1.8"
+    - python: 2.7
+      env: REQ="Django>=1.7,<1.8"
+    - python: 3.7
+      env: REQ="black flake8"
+      install:
+        - pip install black flake8
+      script:
+        - flake8 .
+        - black --check js_asset tests
   allow_failures:
     - env: REQ="https://github.com/django/django/archive/master.zip"
 install:
   - pip install $REQ coverage pytz
   - python setup.py install
-script: "cd tests && ./manage.py test testapp"
+script: cd tests && ./manage.py test -v2 testapp
