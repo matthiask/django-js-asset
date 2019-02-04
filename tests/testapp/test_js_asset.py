@@ -45,3 +45,11 @@ class AssetTest(TestCase):
             '<script type="text/javascript" src="https://cdn.example.org/script.js"></script>',  # noqa
             html,
         )
+
+    def test_asset_merging(self):
+        media1 = Media(js=["thing.js", JS("other.js"), "some.js"])
+        media2 = Media(js=["thing.js", JS("other.js"), "some.js"])
+        media = media1 + media2
+        self.assertEqual(len(media._js), 3)
+        self.assertEqual(media._js[0], "thing.js")
+        self.assertEqual(media._js[2], "some.js")

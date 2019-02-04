@@ -62,3 +62,12 @@ class JS(object):
             if self.attrs
             else js
         )
+
+    def __eq__(self, other):
+        if isinstance(other, JS):
+            return (
+                self.js == other.js
+                and self.attrs == other.attrs
+                and self.static == other.static
+            )
+        return self.js == other and not self.attrs and self.static

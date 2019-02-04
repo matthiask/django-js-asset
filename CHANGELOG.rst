@@ -8,6 +8,8 @@ Change log
 ~~~~~~~~~~~~~~~
 
 - Reformatted the code using Black.
+- Added equality of ``JS()`` objects to avoid strange problems when
+  merging Django's ``Media()`` objects.
 
 
 `1.1`_ (2018-04-19)
