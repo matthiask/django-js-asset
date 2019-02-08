@@ -54,7 +54,7 @@ matrix:
         - flake8 .
         - black --check js_asset tests
   allow_failures:
-    - env: REQ="https://github.com/django/django/archive/master.zip"
+    - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
   - pip install $REQ coverage pytz
   - python setup.py install
