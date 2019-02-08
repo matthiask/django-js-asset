@@ -5,20 +5,22 @@ import json
 from django import VERSION
 from django.apps import apps
 from django.forms.utils import flatatt
+from django.templatetags.static import static
 from django.utils.html import format_html, mark_safe
 
 
 __all__ = ("JS", "static")
 
 
-if VERSION < (1, 10) and apps.is_installed(
-    "django.contrib.staticfiles"
-):  # pragma: no cover
-    from django.contrib.staticfiles.storage import staticfiles_storage
+if VERSION < (1, 10):  # pragma: no cover
+    _static = static
 
-    static = staticfiles_storage.url
-else:
-    from django.templatetags.static import static
+    def static(path):
+        if apps.is_installed("django.contrib.staticfiles"):
+            from django.contrib.staticfiles.storage import staticfiles_storage
+
+            return staticfiles_storage.url(path)
+        return _static(path)
 
 
 class JS(object):
