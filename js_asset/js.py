@@ -1,5 +1,8 @@
 from __future__ import unicode_literals
 
+import json
+
+from django import VERSION
 from django.apps import apps
 from django.forms.utils import flatatt
 from django.utils.html import format_html, mark_safe
@@ -54,6 +57,11 @@ class JS(object):
     def startswith(self, _):
         # Masquerade as absolute path so that we are returned as-is.
         return True
+
+    def __repr__(self):
+        return "JS({}, {}, static={})".format(
+            self.js, json.dumps(self.attrs), self.static
+        )
 
     def __html__(self):
         js = static(self.js) if self.static else self.js

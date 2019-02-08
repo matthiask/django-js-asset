@@ -53,3 +53,9 @@ class AssetTest(TestCase):
         self.assertEqual(len(media._js), 3)
         self.assertEqual(media._js[0], "thing.js")
         self.assertEqual(media._js[2], "some.js")
+
+    def test_repr(self):
+        self.assertEqual(
+            repr(JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42})),
+            'JS(app/asset.js, {"id": "asset-script", "data-the-answer": 42}, static=True)',  # noqa
+        )

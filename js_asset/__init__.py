@@ -7,5 +7,5 @@ __version__ = ".".join(map(str, VERSION))
 
 try:
     from js_asset.js import *  # noqa
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
