@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import json
 
+from django import VERSION
 from django.apps import apps
 from django.forms.utils import flatatt
 from django.utils.html import format_html, mark_safe
@@ -10,17 +11,14 @@ from django.utils.html import format_html, mark_safe
 __all__ = ("JS", "static")
 
 
-def static(path):
-    # Django >= 1.10 does this automatically. We can revert to simply using
-    # static(path) then.
-    if apps.is_installed("django.contrib.staticfiles"):
-        from django.contrib.staticfiles.storage import staticfiles_storage
+if VERSION < (1, 10) and apps.is_installed(
+    "django.contrib.staticfiles"
+):  # pragma: no cover
+    from django.contrib.staticfiles.storage import staticfiles_storage
 
-        return staticfiles_storage.url(path)
-    else:
-        from django.templatetags.static import static
-
-        return static(path)
+    static = staticfiles_storage.url
+else:
+    from django.templatetags.static import static
 
 
 class JS(object):
