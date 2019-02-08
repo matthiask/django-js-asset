@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 import json
 
-from django import VERSION
 from django.apps import apps
 from django.forms.utils import flatatt
 from django.utils.html import format_html, mark_safe
@@ -60,7 +59,7 @@ class JS(object):
 
     def __repr__(self):
         return "JS({}, {}, static={})".format(
-            self.js, json.dumps(self.attrs), self.static
+            self.js, json.dumps(self.attrs, sort_keys=True), self.static
         )
 
     def __html__(self):
