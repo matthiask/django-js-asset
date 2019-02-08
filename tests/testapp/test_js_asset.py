@@ -56,6 +56,6 @@ class AssetTest(TestCase):
 
     def test_repr(self):
         self.assertEqual(
-            repr(JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42})),
+            repr(JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42})).lstrip("u"),
             'JS(app/asset.js, {"id": "asset-script", "data-the-answer": 42}, static=True)',  # noqa
         )
