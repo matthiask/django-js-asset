@@ -7,9 +7,16 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+`1.2`_ (2019-02-08)
+~~~~~~~~~~~~~~~~~~~
+
 - Reformatted the code using Black.
-- Added equality of ``JS()`` objects to avoid strange problems when
-  merging Django's ``Media()`` objects.
+- Added equality of ``JS()`` objects to avoid adding the same script
+  more than once in the same configuration.
+- Determine the ``static`` callable at module import time, not each time
+  a static path is generated.
+- Customized the ``repr()`` of ``JS()`` objects.
+- Added Python 3.7 and Django 2.2 to the test matrix.
 
 
 `1.1`_ (2018-04-19)
@@ -44,4 +51,5 @@ Change log
 .. _0.1: https://github.com/matthiask/django-js-asset/commit/e335c79a87
 .. _1.0: https://github.com/matthiask/django-js-asset/compare/0.1...1.0
 .. _1.1: https://github.com/matthiask/django-js-asset/compare/1.0...1.1
-.. _Next version: https://github.com/matthiask/django-js-asset/compare/1.1...master
+.. _1.2: https://github.com/matthiask/django-js-asset/compare/1.1...1.2
+.. _Next version: https://github.com/matthiask/django-js-asset/compare/1.2...master
