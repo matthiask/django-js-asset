@@ -7,6 +7,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Made ``JS()`` objects hashable so that they can be put into sets in
+  preparation for a possible fix for media ordering in Django #30179.
+
+
 `1.2`_ (2019-02-08)
 ~~~~~~~~~~~~~~~~~~~
 

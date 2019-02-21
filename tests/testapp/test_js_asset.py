@@ -61,3 +61,12 @@ class AssetTest(TestCase):
             ).lstrip("u"),
             'JS(app/asset.js, {"data-the-answer": 42, "id": "asset-script"}, static=True)',  # noqa
         )
+
+    def test_set(self):
+        media = [
+            JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42}),
+            JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42}),
+            JS("app/asset.js", {"id": "asset-script", "data-the-answer": 43}),
+        ]
+
+        self.assertEqual(len(set(media)), 2)

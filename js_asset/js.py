@@ -78,3 +78,6 @@ class JS(object):
                 and self.static == other.static
             )
         return self.js == other and not self.attrs and self.static
+
+    def __hash__(self):
+        return hash((self.js, json.dumps(self.attrs, sort_keys=True), self.static))
