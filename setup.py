@@ -38,5 +38,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Application Frameworks",
     ],
     zip_safe=False,
+    install_requires=["Django"],
     tests_require=["Django", "coverage", "pytz"],
 )
