@@ -49,7 +49,9 @@ the ``JS`` object to avoid passing the script URL through ``static()``.
 In this case, you probably want to add ``defer`` or ``async``, and maybe
 also ``integrity`` and ``crossorigin`` attributes. Please note that
 boolean attributes are not properly supported, so specify them as
-follows::
+follows:
+
+.. code-block:: python
 
     JS(
         "https://cdn.example.com/script.js",
