@@ -1,9 +1,13 @@
 from __future__ import unicode_literals
 
+import django
 from django.forms import Media
 from django.test import TestCase
 
 from js_asset.js import JS
+
+
+JS_TYPE = ' type="text/javascript"' if django.VERSION < (3, 1) else ""
 
 
 class AssetTest(TestCase):
@@ -25,15 +29,17 @@ class AssetTest(TestCase):
             html,
         )
         self.assertInHTML(
-            '<script type="text/javascript" src="/static/app/test.js"></script>',  # noqa
+            '<script{} src="/static/app/test.js"></script>'.format(JS_TYPE),  # noqa
             html,
         )
         self.assertInHTML(
-            '<script type="text/javascript" src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>',  # noqa
+            '<script{} src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>'.format(  # noqa
+                JS_TYPE
+            ),
             html,
         )
         self.assertInHTML(
-            '<script type="text/javascript" src="/static/app/asset-without.js"></script>',  # noqa
+            '<script{} src="/static/app/asset-without.js"></script>'.format(JS_TYPE),
             html,
         )
 
@@ -42,7 +48,9 @@ class AssetTest(TestCase):
         html = "%s" % media
 
         self.assertInHTML(
-            '<script type="text/javascript" src="https://cdn.example.org/script.js"></script>',  # noqa
+            '<script{} src="https://cdn.example.org/script.js"></script>'.format(
+                JS_TYPE
+            ),
             html,
         )
 
