@@ -9,7 +9,9 @@ Change log
 
 - Made ``JS()`` objects hashable so that they can be put into sets in
   preparation for a possible fix for media ordering in Django #30179.
-- Run tests with Django 3.0 too.
+- Confirmed support for Django 3.0 and 3.1a1.
+- Django dropped ``type="text/javascript"`` in 3.1, changed our tests to
+  pass again.
 
 
 `1.2`_ (2019-02-08)
