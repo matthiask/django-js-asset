@@ -12,6 +12,9 @@ Change log
 - Confirmed support for Django 3.0 and 3.1a1.
 - Django dropped ``type="text/javascript"`` in 3.1, changed our tests to
   pass again.
+- Switched from Travis CI to GitHub actions.
+- Dropped Django 1.7 from the CI jobs list because it somehow didn't
+  discover our tests.
 
 
 `1.2`_ (2019-02-08)

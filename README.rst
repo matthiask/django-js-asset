@@ -2,8 +2,8 @@
 django-js-asset -- script tag with additional attributes for django.forms.Media
 ===============================================================================
 
-.. image:: https://travis-ci.org/matthiask/django-js-asset.svg?branch=master
-    :target: https://travis-ci.org/matthiask/django-js-asset
+.. image:: https://github.com/matthiask/django-js-asset/workflows/Tests/badge.svg
+    :target: https://github.com/matthiask/django-js-asset
 
 Usage
 =====
