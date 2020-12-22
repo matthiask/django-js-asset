@@ -67,6 +67,95 @@ matrix:
       script:
         - flake8 .
         - black --check js_asset tests
+
+    - python: 3.8
+      arch: ppc64le
+      env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
+    - python: 3.8
+      arch: ppc64le
+      env: REQ="Django>=3.1,<3.2"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="Django>=3.1,<3.2"
+    - python: 3.6
+      arch: ppc64le
+      env: REQ="Django>=3.1,<3.2"
+    - python: 3.8
+      arch: ppc64le
+      env: REQ="Django>=3.0,<3.1"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="Django>=3.0,<3.1"
+    - python: 3.6
+      arch: ppc64le
+      env: REQ="Django>=3.0,<3.1"
+    - python: 3.8
+      arch: ppc64le
+      env: REQ="Django>=2.2,<3.0"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="Django>=2.2,<3.0"
+    - python: 3.6
+      arch: ppc64le
+      env: REQ="Django>=2.2,<3.0"
+    - python: 3.5
+      arch: ppc64le
+      env: REQ="Django>=2.2,<3.0"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="Django>=2.1,<2.2"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="Django>=2.0,<2.1"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.6
+      arch: ppc64le
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.5
+      arch: ppc64le
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.4
+      arch: ppc64le
+      env: REQ="Django>=1.11,<2.0"
+    - python: 2.7
+      arch: ppc64le
+      env: REQ="Django>=1.11,<2.0"
+    - python: 3.5
+      arch: ppc64le
+      env: REQ="Django>=1.10,<1.11"
+    - python: 2.7
+      arch: ppc64le
+      env: REQ="Django>=1.10,<1.11"
+    - python: 3.5
+      arch: ppc64le
+      env: REQ="Django>=1.9,<1.10"
+    - python: 2.7
+      arch: ppc64le
+      env: REQ="Django>=1.9,<1.10"
+    - python: 3.5
+      arch: ppc64le
+      env: REQ="Django>=1.8,<1.9"
+    - python: 3.4
+      arch: ppc64le
+      env: REQ="Django>=1.8,<1.9"
+    - python: 2.7
+      arch: ppc64le
+      env: REQ="Django>=1.8,<1.9"
+    - python: 3.4
+      arch: ppc64le
+      env: REQ="Django>=1.7,<1.8"
+    - python: 2.7
+      arch: ppc64le
+      env: REQ="Django>=1.7,<1.8"
+    - python: 3.7
+      arch: ppc64le
+      env: REQ="black flake8"
+      install:
+        - pip install black flake8
+      script:
+        - flake8 .
   allow_failures:
     - env: REQ="https://github.com/django/django/archive/master.zip#egg=Django"
 install:
