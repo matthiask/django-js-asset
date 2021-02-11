@@ -63,7 +63,8 @@ follows:
 Compatibility
 =============
 
-At the time of writing this app is compatible with Django 1.7 and better
+At the time of writing this app is compatible with Django 1.8 and better
 (up to and including the Django master branch), but have a look at the
-`Travis CI build <https://travis-ci.org/matthiask/django-js-asset>`_ for
+`tox configuration
+<https://github.com/matthiask/django-js-asset/blob/main/tox.ini>`_ for
 definitive answers.

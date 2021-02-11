@@ -15,6 +15,8 @@ Change log
 - Switched from Travis CI to GitHub actions.
 - Dropped Django 1.7 from the CI jobs list because it somehow didn't
   discover our tests.
+- Renamed the main branch to ``main``.
+- Added CI testing for Django 3.2.
 
 
 `1.2`_ (2019-02-08)
