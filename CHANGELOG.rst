@@ -7,6 +7,12 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Raised the minimum supported versions of Python to 3.6, Django to 2.2.
+
+
+Released as 1.2.1 and 1.2.2:
+----------------------------
+
 - Made ``JS()`` objects hashable so that they can be put into sets in
   preparation for a possible fix for media ordering in Django #30179.
 - Confirmed support for Django 3.0 and 3.1a1.

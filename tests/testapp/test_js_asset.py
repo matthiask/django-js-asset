@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import django
 from django.forms import Media
 from django.test import TestCase
@@ -29,7 +27,7 @@ class AssetTest(TestCase):
             html,
         )
         self.assertInHTML(
-            '<script{} src="/static/app/test.js"></script>'.format(JS_TYPE),  # noqa
+            f'<script{JS_TYPE} src="/static/app/test.js"></script>',  # noqa
             html,
         )
         self.assertInHTML(
@@ -39,7 +37,7 @@ class AssetTest(TestCase):
             html,
         )
         self.assertInHTML(
-            '<script{} src="/static/app/asset-without.js"></script>'.format(JS_TYPE),
+            f'<script{JS_TYPE} src="/static/app/asset-without.js"></script>',
             html,
         )
 

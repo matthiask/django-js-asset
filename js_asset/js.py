@@ -1,9 +1,5 @@
-from __future__ import unicode_literals
-
 import json
 
-from django import VERSION
-from django.apps import apps
 from django.forms.utils import flatatt
 from django.templatetags.static import static
 from django.utils.html import format_html, mark_safe
@@ -12,18 +8,7 @@ from django.utils.html import format_html, mark_safe
 __all__ = ("JS", "static")
 
 
-if VERSION < (1, 10):  # pragma: no cover
-    _static = static
-
-    def static(path):
-        if apps.is_installed("django.contrib.staticfiles"):
-            from django.contrib.staticfiles.storage import staticfiles_storage
-
-            return staticfiles_storage.url(path)
-        return _static(path)
-
-
-class JS(object):
+class JS:
     """
     Use this to insert a script tag via ``forms.Media`` containing additional
     attributes (such as ``id`` and ``data-*`` for CSP-compatible data
