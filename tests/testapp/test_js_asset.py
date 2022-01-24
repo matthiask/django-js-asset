@@ -5,6 +5,7 @@ from django.test import TestCase
 from js_asset.js import JS
 
 
+CSS_TYPE = ' type="text/css"' if django.VERSION < (4, 1) else ""
 JS_TYPE = ' type="text/javascript"' if django.VERSION < (3, 1) else ""
 
 
@@ -23,7 +24,7 @@ class AssetTest(TestCase):
         # print(html)
 
         self.assertInHTML(
-            '<link href="/static/app/print.css" type="text/css" media="print" rel="stylesheet" />',  # noqa
+            f'<link href="/static/app/print.css"{CSS_TYPE} media="print" rel="stylesheet" />',  # noqa
             html,
         )
         self.assertInHTML(
