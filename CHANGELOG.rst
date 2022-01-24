@@ -8,6 +8,7 @@ Change log
 ~~~~~~~~~~~~~~~
 
 - Raised the minimum supported versions of Python to 3.6, Django to 2.2.
+- Added pre-commit.
 
 
 Released as 1.2.1 and 1.2.2:
