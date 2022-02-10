@@ -1,4 +1,5 @@
 import json
+import warnings
 
 from django.forms.utils import flatatt
 from django.templatetags.static import static
@@ -6,6 +7,9 @@ from django.utils.html import format_html, mark_safe
 
 
 __all__ = ("JS", "static")
+
+
+_sentinel = object()
 
 
 class JS:
@@ -33,22 +37,30 @@ class JS:
         var answer = document.querySelector('#asset-script').dataset.answer;
     """
 
-    def __init__(self, js, attrs=None, static=True):
+    def __init__(self, js, attrs=None, static=_sentinel):
         self.js = js
         self.attrs = attrs or {}
-        self.static = static
+        if static is not _sentinel:
+            warnings.warn(
+                "JS automatically determines whether it received an absolute"
+                " path or not. Stop passing the 'static' argument please.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
 
     def startswith(self, _):
         # Masquerade as absolute path so that we are returned as-is.
         return True
 
     def __repr__(self):
-        return "JS({}, {}, static={})".format(
-            self.js, json.dumps(self.attrs, sort_keys=True), self.static
-        )
+        return "JS({}, {})".format(self.js, json.dumps(self.attrs, sort_keys=True))
 
     def __html__(self):
-        js = static(self.js) if self.static else self.js
+        js = (
+            self.js
+            if self.js.startswith(("http://", "https://", "/"))
+            else static(self.js)
+        )
         return (
             format_html('{}"{}', js, mark_safe(flatatt(self.attrs)))[:-1]
             if self.attrs
@@ -57,12 +69,8 @@ class JS:
 
     def __eq__(self, other):
         if isinstance(other, JS):
-            return (
-                self.js == other.js
-                and self.attrs == other.attrs
-                and self.static == other.static
-            )
-        return self.js == other and not self.attrs and self.static
+            return self.js == other.js and self.attrs == other.attrs
+        return self.js == other and not self.attrs
 
     def __hash__(self):
-        return hash((self.js, json.dumps(self.attrs, sort_keys=True), self.static))
+        return hash((self.js, json.dumps(self.attrs, sort_keys=True)))

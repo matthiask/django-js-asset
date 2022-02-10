@@ -66,7 +66,7 @@ class AssetTest(TestCase):
             repr(
                 JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42})
             ).lstrip("u"),
-            'JS(app/asset.js, {"data-the-answer": 42, "id": "asset-script"}, static=True)',  # noqa
+            'JS(app/asset.js, {"data-the-answer": 42, "id": "asset-script"})',  # noqa
         )
 
     def test_set(self):

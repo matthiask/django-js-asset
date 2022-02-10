@@ -9,6 +9,9 @@ Change log
 
 - Raised the minimum supported versions of Python to 3.6, Django to 2.2.
 - Added pre-commit.
+- Replaced the explicit configuration of whether ``static()`` should be used or
+  not with automatic configuration. The ``static`` argument is still accepted
+  but ignored and will be removed at a later time.
 
 
 Released as 1.2.1 and 1.2.2:
