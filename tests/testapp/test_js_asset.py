@@ -1,3 +1,5 @@
+from unittest import skipIf
+
 import django
 from django.forms import Media
 from django.test import TestCase
@@ -77,3 +79,13 @@ class AssetTest(TestCase):
         ]
 
         self.assertEqual(len(set(media)), 2)
+
+    @skipIf(
+        django.VERSION < (4, 1),
+        "django-js-asset doesn't support boolean attributes yet",
+    )
+    def test_boolean_attributes(self):
+        self.assertEqual(
+            str(JS("app/asset.js", {"bool": True, "cool": False})),
+            '<script src="app/asset.js" bool></script>',
+        )

@@ -12,6 +12,7 @@ Change log
 - Replaced the explicit configuration of whether ``static()`` should be used or
   not with automatic configuration. The ``static`` argument is still accepted
   but ignored and will be removed at a later time.
+- Added support for boolean attributes when using Django 4.1 or better.
 
 
 Released as 1.2.1 and 1.2.2:

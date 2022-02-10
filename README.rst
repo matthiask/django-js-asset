@@ -44,12 +44,12 @@ Django versions (older do not take the presence of
 ``js_asset.static`` function is provided which does the right thing
 automatically.
 
-When adding external script assets, you should pass ``static=False`` to
-the ``JS`` object to avoid passing the script URL through ``static()``.
-In this case, you probably want to add ``defer`` or ``async``, and maybe
-also ``integrity`` and ``crossorigin`` attributes. Please note that
-boolean attributes are not properly supported, so specify them as
-follows:
+When adding external script assets, you should pass ``static=False`` to the
+``JS`` object to avoid passing the script URL through ``static()``. In this
+case, you probably want to add ``defer`` or ``async``, and maybe also
+``integrity`` and ``crossorigin`` attributes. Please note that boolean
+attributes are not properly supported when using Django before 4.1 so specify
+them as follows:
 
 .. code-block:: python
 

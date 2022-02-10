@@ -1,9 +1,10 @@
 import json
 import warnings
 
+from django import VERSION
 from django.forms.utils import flatatt
 from django.templatetags.static import static
-from django.utils.html import format_html, mark_safe
+from django.utils.html import format_html, html_safe, mark_safe
 
 
 __all__ = ("JS", "static")
@@ -53,19 +54,32 @@ class JS:
         return True
 
     def __repr__(self):
-        return "JS({}, {})".format(self.js, json.dumps(self.attrs, sort_keys=True))
+        return f"JS({self.js}, {json.dumps(self.attrs, sort_keys=True)})"
 
-    def __html__(self):
-        js = (
-            self.js
-            if self.js.startswith(("http://", "https://", "/"))
-            else static(self.js)
-        )
-        return (
-            format_html('{}"{}', js, mark_safe(flatatt(self.attrs)))[:-1]
-            if self.attrs
-            else js
-        )
+    if VERSION >= (4, 1):
+
+        def __str__(self):
+            return format_html(
+                '<script src="{}"{}></script>',
+                self.js
+                if self.js.startswith(("http://", "https://", "/"))
+                else static(self.js),
+                mark_safe(flatatt(self.attrs)),
+            )
+
+    else:
+
+        def __html__(self):
+            js = (
+                self.js
+                if self.js.startswith(("http://", "https://", "/"))
+                else static(self.js)
+            )
+            return (
+                format_html('{}"{}', js, mark_safe(flatatt(self.attrs)))[:-1]
+                if self.attrs
+                else js
+            )
 
     def __eq__(self, other):
         if isinstance(other, JS):
@@ -74,3 +88,7 @@ class JS:
 
     def __hash__(self):
         return hash((self.js, json.dumps(self.attrs, sort_keys=True)))
+
+
+if VERSION >= (4, 1):
+    JS = html_safe(JS)
