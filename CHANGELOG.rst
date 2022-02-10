@@ -7,6 +7,14 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+.. _Next version: https://github.com/matthiask/django-js-asset/compare/2.0...master
+
+
+`2.0`_ (2022-02-10)
+~~~~~~~~~~~~~~~~~~~
+
+.. _2.0: https://github.com/matthiask/django-js-asset/compare/1.2...2.0
+
 - Raised the minimum supported versions of Python to 3.6, Django to 2.2.
 - Added pre-commit.
 - Replaced the explicit configuration of whether ``static()`` should be used or
