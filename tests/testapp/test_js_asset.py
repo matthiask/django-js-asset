@@ -87,5 +87,5 @@ class AssetTest(TestCase):
     def test_boolean_attributes(self):
         self.assertEqual(
             str(JS("app/asset.js", {"bool": True, "cool": False})),
-            '<script src="app/asset.js" bool></script>',
+            '<script src="/static/app/asset.js" bool></script>',
         )
