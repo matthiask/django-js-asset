@@ -9,6 +9,8 @@ Change log
 
 .. _Next version: https://github.com/matthiask/django-js-asset/compare/2.0...master
 
+- Added Django 4.1a1 to the CI.
+
 
 `2.0`_ (2022-02-10)
 ~~~~~~~~~~~~~~~~~~~
