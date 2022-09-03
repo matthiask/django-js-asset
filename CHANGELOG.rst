@@ -7,9 +7,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
-.. _Next version: https://github.com/matthiask/django-js-asset/compare/2.0...master
+.. _Next version: https://github.com/matthiask/django-js-asset/compare/2.0...main
 
-- Added Django 4.1a1 to the CI.
+- Added Django 4.1 to the CI.
+- Removed the pytz dependency from the tests.
 
 
 `2.0`_ (2022-02-10)
