@@ -11,6 +11,7 @@ Change log
 
 - Added Django 4.1 to the CI.
 - Removed the pytz dependency from the tests.
+- Dropped Python < 3.8, Django 3.2 from the CI.
 
 
 `2.0`_ (2022-02-10)
