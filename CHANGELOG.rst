@@ -9,9 +9,10 @@ Change log
 
 .. _Next version: https://github.com/matthiask/django-js-asset/compare/2.0...main
 
-- Added Django 4.1 and 4.2 to the CI.
+- Added Django 4.1, 4.2 and Python 3.11 to the CI.
 - Removed the pytz dependency from the tests.
 - Dropped Python < 3.8, Django < 3.2 from the CI.
+- Switched to hatchling and ruff.
 
 
 `2.0`_ (2022-02-10)

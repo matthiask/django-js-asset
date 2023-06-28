@@ -26,15 +26,15 @@ class AssetTest(TestCase):
         # print(html)
 
         self.assertInHTML(
-            f'<link href="/static/app/print.css"{CSS_TYPE} media="print" rel="stylesheet" />',  # noqa
+            f'<link href="/static/app/print.css"{CSS_TYPE} media="print" rel="stylesheet" />',
             html,
         )
         self.assertInHTML(
-            f'<script{JS_TYPE} src="/static/app/test.js"></script>',  # noqa
+            f'<script{JS_TYPE} src="/static/app/test.js"></script>',
             html,
         )
         self.assertInHTML(
-            '<script{} src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>'.format(  # noqa
+            '<script{} src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>'.format(
                 JS_TYPE
             ),
             html,
@@ -68,7 +68,7 @@ class AssetTest(TestCase):
             repr(
                 JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42})
             ).lstrip("u"),
-            'JS(app/asset.js, {"data-the-answer": 42, "id": "asset-script"})',  # noqa
+            'JS(app/asset.js, {"data-the-answer": 42, "id": "asset-script"})',
         )
 
     def test_set(self):
