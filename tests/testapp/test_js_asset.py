@@ -49,9 +49,7 @@ class AssetTest(TestCase):
         html = "%s" % media
 
         self.assertInHTML(
-            '<script{} src="https://cdn.example.org/script.js"></script>'.format(
-                JS_TYPE
-            ),
+            f'<script{JS_TYPE} src="https://cdn.example.org/script.js"></script>',
             html,
         )
 
