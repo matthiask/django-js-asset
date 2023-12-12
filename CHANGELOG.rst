@@ -7,6 +7,10 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Started running the tests periodically to detect breakages early.
+- Added Django 5.0, Python 3.12.
+- Fixed building with hatchling 1.19. Thanks Michał Górny!
+
 
 2.1 (2023-06-28)
 ~~~~~~~~~~~~~~~~

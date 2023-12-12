@@ -34,9 +34,7 @@ class AssetTest(TestCase):
             html,
         )
         self.assertInHTML(
-            '<script{} src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>'.format(
-                JS_TYPE
-            ),
+            f'<script{JS_TYPE} src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>',
             html,
         )
         self.assertInHTML(
