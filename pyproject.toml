@@ -42,6 +42,9 @@ tests = [
 [project.urls]
 Homepage = "https://github.com/matthiask/django-js-asset/"
 
+[tool.hatch.build.targets.wheel]
+packages = ["js_asset"]
+
 [tool.hatch.version]
 path = "js_asset/__init__.py"
 
