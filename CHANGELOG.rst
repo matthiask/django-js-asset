@@ -4,8 +4,12 @@
 Change log
 ==========
 
-`Next version`_
-~~~~~~~~~~~~~~~
+Next version
+~~~~~~~~~~~~
+
+
+2.2 (2023-12-12)
+~~~~~~~~~~~~~~~~
 
 - Started running the tests periodically to detect breakages early.
 - Added Django 5.0, Python 3.12.
