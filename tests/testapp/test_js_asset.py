@@ -21,7 +21,7 @@ class AssetTest(TestCase):
                 JS("app/asset-without.js", {}),
             ],
         )
-        html = "%s" % media
+        html = str(media)
 
         # print(html)
 
@@ -44,7 +44,7 @@ class AssetTest(TestCase):
 
     def test_absolute(self):
         media = Media(js=[JS("https://cdn.example.org/script.js", static=False)])
-        html = "%s" % media
+        html = str(media)
 
         self.assertInHTML(
             f'<script{JS_TYPE} src="https://cdn.example.org/script.js"></script>',
