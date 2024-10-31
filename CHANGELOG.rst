@@ -7,7 +7,7 @@ Change log
 Next version
 ~~~~~~~~~~~~
 
-- Added Django 5.1rc1.
+- Added Django 5.1, Python 3.13.
 
 
 2.2 (2023-12-12)
