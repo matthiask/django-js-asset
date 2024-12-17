@@ -7,6 +7,13 @@ Change log
 Next version
 ~~~~~~~~~~~~
 
+- Made the ``id`` argument to ``JSON`` keyword-only. Also made the ``inline``
+  argument to ``CSS`` keyword-only.
+
+
+3.0 (2024-12-17)
+~~~~~~~~~~~~~~~~
+
 - Rewrite the internals using dataclasses, drop compatibility with Django < 4.2
   and Python < 3.10.
 - Added a ``CSS`` and ``JSON`` class which can also be used with

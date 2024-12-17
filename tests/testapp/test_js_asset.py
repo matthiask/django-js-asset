@@ -80,7 +80,7 @@ class AssetTest(TestCase):
 
     def test_json(self):
         self.assertEqual(
-            str(JSON({"hello": "world"}, "hello")),
+            str(JSON({"hello": "world"}, id="hello")),
             '<script id="hello" type="application/json">{"hello": "world"}</script>',
         )
 

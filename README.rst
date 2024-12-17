@@ -45,6 +45,39 @@ Django versions (older do not take the presence of
 automatically.
 
 
+CSS and JSON support
+====================
+
+Since 3.0 django-js-asset also ships a ``CSS`` and ``JSON`` media object which
+can be used to ship stylesheets, inline styles and JSON blobs to the frontend.
+It's recommended to pass those through ``forms.Media(js=[])`` as well since
+``js`` is a simple list while ``css`` uses a dictionary keyed with the media to
+use for the stylesheet.
+
+So, you can add everything at once:
+
+.. code-block:: python
+
+    from js_asset import CSS, JS, JSON
+
+    forms.Media(js=[
+        JSON({"configuration": 42}, id="widget-configuration"),
+        CSS("widget/style.css"),
+        CSS("p{color:red;}", inline=True),
+        JS("widget/script.js", {"type": "module"}),
+    ])
+
+This produces:
+
+.. code-block:: html
+
+    <script id="widget-configuration" type="application/json">{"configuration": 42}</script>
+    <link rel="stylesheet" href="/static/widget/style.css">
+    <style>p{color:red;}</style>
+    <script src="/static/widget/script.js" type="module"></script>
+
+
+
 Compatibility
 =============
 

@@ -17,7 +17,7 @@ def static_if_relative(path):
 @dataclass(eq=True)
 class CSS:
     src: str
-    inline: bool = False
+    inline: bool = field(default=False, kw_only=True)
 
     def __hash__(self):
         return hash(self.__str__())
@@ -51,7 +51,7 @@ class JS:
 @dataclass(eq=True)
 class JSON:
     data: dict[str, Any]
-    id: str | None = ""
+    id: str | None = field(default="", kw_only=True)
 
     def __hash__(self):
         return hash(self.__str__())
