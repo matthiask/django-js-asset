@@ -47,8 +47,8 @@ class JS:
 @html_safe
 @dataclass(eq=True)
 class JSON:
-    id: str | None
     data: dict[str, Any]
+    id: str | None = ""
 
     def __hash__(self):
         return hash(self.__str__())

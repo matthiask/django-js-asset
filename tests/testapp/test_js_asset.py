@@ -1,12 +1,7 @@
-import django
 from django.forms import Media
 from django.test import TestCase
 
-from js_asset.js import JS
-
-
-CSS_TYPE = ' type="text/css"' if django.VERSION < (4, 1) else ""
-JS_TYPE = ' type="text/javascript"' if django.VERSION < (3, 1) else ""
+from js_asset.js import CSS, JS, JSON
 
 
 class AssetTest(TestCase):
@@ -24,19 +19,19 @@ class AssetTest(TestCase):
         # print(html)
 
         self.assertInHTML(
-            f'<link href="/static/app/print.css"{CSS_TYPE} media="print" rel="stylesheet" />',
+            '<link href="/static/app/print.css" media="print" rel="stylesheet" />',
             html,
         )
         self.assertInHTML(
-            f'<script{JS_TYPE} src="/static/app/test.js"></script>',
+            '<script src="/static/app/test.js"></script>',
             html,
         )
         self.assertInHTML(
-            f'<script{JS_TYPE} src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>',
+            '<script src="/static/app/asset.js" data-the-answer="42" id="asset-script"></script>',
             html,
         )
         self.assertInHTML(
-            f'<script{JS_TYPE} src="/static/app/asset-without.js"></script>',
+            '<script src="/static/app/asset-without.js"></script>',
             html,
         )
 
@@ -45,7 +40,7 @@ class AssetTest(TestCase):
         html = str(media)
 
         self.assertInHTML(
-            f'<script{JS_TYPE} src="https://cdn.example.org/script.js"></script>',
+            '<script src="https://cdn.example.org/script.js"></script>',
             html,
         )
 
@@ -70,4 +65,26 @@ class AssetTest(TestCase):
         self.assertEqual(
             str(JS("app/asset.js", {"bool": True, "cool": False})),
             '<script src="/static/app/asset.js" bool></script>',
+        )
+
+    def test_css(self):
+        self.assertEqual(
+            str(CSS("app/style.css")),
+            '<link rel="stylesheet" href="/static/app/style.css">',
+        )
+
+        self.assertEqual(
+            str(CSS("p{color:red}", inline=True)),
+            "<style>p{color:red}</style>",
+        )
+
+    def test_json(self):
+        self.assertEqual(
+            str(JSON({"hello": "world"}, "hello")),
+            '<script id="hello" type="application/json">{"hello": "world"}</script>',
+        )
+
+        self.assertEqual(
+            str(JSON({"hello": "world"})),
+            '<script type="application/json">{"hello": "world"}</script>',
         )
