@@ -1,5 +1,3 @@
-from unittest import skipIf
-
 import django
 from django.forms import Media
 from django.test import TestCase
@@ -43,7 +41,7 @@ class AssetTest(TestCase):
         )
 
     def test_absolute(self):
-        media = Media(js=[JS("https://cdn.example.org/script.js", static=False)])
+        media = Media(js=[JS("https://cdn.example.org/script.js")])
         html = str(media)
 
         self.assertInHTML(
@@ -59,14 +57,6 @@ class AssetTest(TestCase):
         self.assertEqual(media._js[0], "thing.js")
         self.assertEqual(media._js[2], "some.js")
 
-    def test_repr(self):
-        self.assertEqual(
-            repr(
-                JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42})
-            ).lstrip("u"),
-            'JS(app/asset.js, {"data-the-answer": 42, "id": "asset-script"})',
-        )
-
     def test_set(self):
         media = [
             JS("app/asset.js", {"id": "asset-script", "data-the-answer": 42}),
@@ -76,10 +66,6 @@ class AssetTest(TestCase):
 
         self.assertEqual(len(set(media)), 2)
 
-    @skipIf(
-        django.VERSION < (4, 1),
-        "django-js-asset doesn't support boolean attributes yet",
-    )
     def test_boolean_attributes(self):
         self.assertEqual(
             str(JS("app/asset.js", {"bool": True, "cool": False})),

@@ -7,6 +7,12 @@ Change log
 Next version
 ~~~~~~~~~~~~
 
+- Rewrite the internals using dataclasses, drop compatibility with Django < 4.2
+  and Python < 3.10.
+- Added a ``CSS`` and ``JSON`` class which can also be used with
+  ``forms.Media``. It's recommended to pass them as JavaScript entries to
+  ``forms.Media(js=[])`` because the ``js`` list doesn't use a media
+  dictionary.
 - Added Django 5.1, Python 3.13.
 
 

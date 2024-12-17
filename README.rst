@@ -44,27 +44,12 @@ Django versions (older do not take the presence of
 ``js_asset.static`` function is provided which does the right thing
 automatically.
 
-When adding external script assets, you should pass ``static=False`` to the
-``JS`` object to avoid passing the script URL through ``static()``. In this
-case, you probably want to add ``defer`` or ``async``, and maybe also
-``integrity`` and ``crossorigin`` attributes. Please note that boolean
-attributes are not properly supported when using Django before 4.1 so specify
-them as follows:
-
-.. code-block:: python
-
-    JS(
-        "https://cdn.example.com/script.js",
-        {"defer": "defer"},
-        static=False,
-    )
-
 
 Compatibility
 =============
 
-At the time of writing this app is compatible with Django 1.8 and better
-(up to and including the Django master branch), but have a look at the
+At the time of writing this app is compatible with Django 4.2 and better
+(up to and including the Django main branch), but have a look at the
 `tox configuration
 <https://github.com/matthiask/django-js-asset/blob/main/tox.ini>`_ for
 definitive answers.
