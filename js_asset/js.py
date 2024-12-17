@@ -6,6 +6,9 @@ from django.templatetags.static import static
 from django.utils.html import format_html, html_safe, json_script, mark_safe
 
 
+__all__ = ["CSS", "JS", "JSON", "static"]
+
+
 def static_if_relative(path):
     return path if path.startswith(("http://", "https://", "/")) else static(path)
 
