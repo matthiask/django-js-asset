@@ -5,10 +5,10 @@ django-js-asset -- JS, CSS and JSON support for django.forms.Media
 .. image:: https://github.com/matthiask/django-js-asset/workflows/Tests/badge.svg
     :target: https://github.com/matthiask/django-js-asset
 
-**Note!** At the time of writing (January '25) it looks probable that Django
-adds its own support for JavaScript objects. This library has a slightly
-different API and also supports much older versions of Django, *and* it also
-supports CSS and JSON tags.
+**Note!** `Django 5.2 adds its own support for JavaScript objects
+<https://docs.djangoproject.com/en/dev/topics/forms/media/#script-objects>`__.
+This library has a slightly different API and also supports much older versions
+of Django, *and* it also supports CSS and JSON tags.
 
 Usage
 =====
