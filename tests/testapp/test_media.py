@@ -11,17 +11,25 @@ class MediaTest(TestCase):
         media_bc = Media(js=["b.js", "c.js"])
         media_ac = Media(js=["a.js", "c.js"])
 
-        extended = ExtendedMedia(
+        extended_a = ExtendedMedia(
             [JS("a.js"), ImportMapImport("library-a", "/static/library-a.abcdef.js")]
         )
+        extended_b = ExtendedMedia(
+            [ImportMapImport("htmx.org", "/static/htmx.org.012345.js"), JS("b.js")]
+        )
 
-        merged = media_ab + media_bc + media_ac + extended
+        merged = media_ab + media_bc + media_ac + extended_a + extended_b
 
         self.assertEqual(
             str(merged),
             """\
-<script type="importmap">{"imports": {"library-a": "/static/library-a.abcdef.js"}}</script>
+<script type="importmap">{"imports": {"htmx.org": "/static/htmx.org.012345.js", "library-a": "/static/library-a.abcdef.js"}}</script>
 <script src="/static/a.js"></script>
 <script src="/static/b.js"></script>
 <script src="/static/c.js"></script>""",
+        )
+
+        self.assertEqual(
+            str(merged),
+            str(extended_a + media_ab + media_ac + extended_b + media_bc),
         )
