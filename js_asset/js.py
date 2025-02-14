@@ -18,15 +18,18 @@ def static_if_relative(path):
 class CSS:
     src: str
     inline: bool = field(default=False, kw_only=True)
+    media: str = "all"
 
     def __hash__(self):
         return hash(self.__str__())
 
     def __str__(self):
         if self.inline:
-            return format_html("<style>{}</style>", self.src)
+            return format_html('<style media="{}">{}</style>', self.media, self.src)
         return format_html(
-            '<link rel="stylesheet" href="{}">', static_if_relative(self.src)
+            '<link href="{}" media="{}" rel="stylesheet">',
+            static_if_relative(self.src),
+            self.media,
         )
 
 

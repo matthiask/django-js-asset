@@ -70,12 +70,17 @@ class AssetTest(TestCase):
     def test_css(self):
         self.assertEqual(
             str(CSS("app/style.css")),
-            '<link rel="stylesheet" href="/static/app/style.css">',
+            '<link href="/static/app/style.css" media="all" rel="stylesheet">',
+        )
+
+        self.assertEqual(
+            str(CSS("app/style.css", media="screen")),
+            '<link href="/static/app/style.css" media="screen" rel="stylesheet">',
         )
 
         self.assertEqual(
             str(CSS("p{color:red}", inline=True)),
-            "<style>p{color:red}</style>",
+            '<style media="all">p{color:red}</style>',
         )
 
     def test_json(self):

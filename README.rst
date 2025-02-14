@@ -77,8 +77,8 @@ This produces:
 .. code-block:: html
 
     <script id="widget-configuration" type="application/json">{"configuration": 42}</script>
-    <link rel="stylesheet" href="/static/widget/style.css">
-    <style>p{color:red;}</style>
+    <link href="/static/widget/style.css" media="all" rel="stylesheet">
+    <style media="all">p{color:red;}</style>
     <script src="/static/widget/script.js" type="module"></script>
 
 

@@ -9,6 +9,7 @@ Next version
 
 - Made the ``id`` argument to ``JSON`` keyword-only. Also made the ``inline``
   argument to ``CSS`` keyword-only.
+- Added the ``media`` attribute to ``CSS`` classes.
 
 
 3.0 (2024-12-17)
