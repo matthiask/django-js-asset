@@ -9,7 +9,7 @@ from js_asset import CSS, JS
 
 def _forms_media_add(self, other):
     # forms.Media etc. do not implement __radd__
-    if isinstance(other, forms.Media) and hasattr(other, "__radd__"):
+    if type(other) is not forms.Media and hasattr(other, "__radd__"):
         return other.__radd__(self)
     return orig_forms_media_add(self, other)
 
