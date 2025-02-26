@@ -1,8 +1,7 @@
 from django.forms import Media
 from django.test import TestCase
 
-from js_asset.js import JS
-from js_asset.media import ExtendedMedia, ImportMapImport
+from js_asset.media import ExtendedMedia, ImportMap
 
 
 class MediaTest(TestCase):
@@ -12,10 +11,16 @@ class MediaTest(TestCase):
         media_ac = Media(js=["a.js", "c.js"])
 
         extended_a = ExtendedMedia(
-            [JS("a.js"), ImportMapImport("library-a", "/static/library-a.abcdef.js")]
+            js=[
+                "a.js",
+                ImportMap({"imports": {"library-a": "/static/library-a.abcdef.js"}}),
+            ]
         )
         extended_b = ExtendedMedia(
-            [ImportMapImport("htmx.org", "/static/htmx.org.012345.js"), JS("b.js")]
+            js=[
+                ImportMap({"imports": {"htmx.org": "/static/htmx.org.012345.js"}}),
+                "b.js",
+            ]
         )
 
         merged = media_ab + media_bc + media_ac + extended_a + extended_b

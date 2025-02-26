@@ -35,7 +35,7 @@ class ExtendedMedia(forms.Media):
         importmap = self.render_importmap(
             asset for asset in self._js if isinstance(asset, ImportMap)
         )
-        return [importmap, *super().render_js()]
+        return [importmap, *filter(None, super().render_js())]
 
     def render_importmap(self, maps):
         if not maps:
