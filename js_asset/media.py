@@ -1,5 +1,7 @@
+import json
 from dataclasses import dataclass
 from itertools import chain
+from typing import Any
 
 from django import forms
 from django.utils.html import html_safe, json_script, mark_safe
@@ -21,13 +23,11 @@ forms.Media.__add__ = _forms_media_add
 
 @html_safe
 @dataclass(eq=True)
-class ImportMapImport:
-    key: str
-    value: str
-    scope: str | None = None
+class ImportMap:
+    map: dict[str, Any]
 
     def __hash__(self):
-        return hash((self.key, self.value, self.scope))
+        return hash(json.dumps(self.map, sort_keys=True))
 
     def __str__(self):
         return ""
@@ -60,7 +60,7 @@ class ExtendedMedia(forms.Media):
         assets = self.merge(*self._asset_lists)
 
         importmap = self.render_importmap(
-            asset for asset in assets if isinstance(asset, ImportMapImport)
+            asset for asset in assets if isinstance(asset, ImportMap)
         )
 
         return mark_safe(
@@ -69,17 +69,21 @@ class ExtendedMedia(forms.Media):
             )
         )
 
-    def render_importmap(self, entries):
-        if not entries:
+    def render_importmap(self, maps):
+        if not maps:
             return ""
-        importmap = {"imports": {}}
-        for entry in entries:
-            if entry.scope:
-                scope = importmap.setdefault("scopes", {}).setdefault(entry.scope, {})
-                scope[entry.key] = entry.value
-            else:
-                importmap["imports"][entry.key] = entry.value
-        html = json_script(importmap).removeprefix('<script type="application/json">')
+        result = {}
+        for map in maps:
+            if imports := map.map.get("imports"):
+                result.setdefault("imports", {}).update(imports)
+            if integrity := map.map.get("integrity"):
+                result.setdefault("integrity", {}).update(integrity)
+            if scopes := map.map.get("scopes"):
+                for scope, imports in scopes.items():
+                    result.setdefault("scopes", {}).setdefault(scope, {}).update(
+                        imports
+                    )
+        html = json_script(result).removeprefix('<script type="application/json">')
         return mark_safe(f'<script type="importmap">{html}')
 
     def _add_media(self, other, *, reverse):
