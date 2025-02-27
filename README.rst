@@ -91,3 +91,50 @@ At the time of writing this app is compatible with Django 4.2 and better
 `tox configuration
 <https://github.com/matthiask/django-js-asset/blob/main/tox.ini>`_ for
 definitive answers.
+
+
+Extremely experimental importmap support
+========================================
+
+django-js-asset ships an extremely experimental implementation adding support
+for using `importmaps
+<https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap>`_
+through ``forms.Media``. Importmap objects are automatically merged and appear
+before all other JavaScript scripts.
+
+Browser support for multiple importmaps is not generally available; at the time
+of writing (February 2025) it's not even clear if Mozilla wants to support them
+ever, so merging importmaps is -- for now -- the only viable way to use them in
+production.
+
+One of the reasons why importmaps are useful when used with Django is that this
+easily allows us to use the file name mangling offered for example by Django
+``ManifestStaticFilesStorage`` without having to rewrite import statements in
+scripts themselves.
+
+The ``ImportMap`` object can be imported from ``js_asset.media``; importing it
+automatically monkeypatches the ``forms.Media`` class with importmap support.
+
+.. code-block:: python
+
+    # static is an alias for Django's static() function used in the
+    # {% static %} template tag.
+    from js_asset import JS, static
+    from js_asset.media import ImportMap
+
+    forms.Media(js=[
+        ImportMap({
+            "imports": {
+                "my-library": static("my-library.js"),
+            },
+        }),
+        JS("code.js", {"type": "module"}),
+    ])
+
+The code in ``code.js`` can now use a JavaScript import to import assets from
+the library, even though the library's filename may contain hashes not known at
+programming time:
+
+.. code-block:: javascript
+
+    import { Stuff } from "my-library"
