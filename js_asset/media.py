@@ -13,6 +13,12 @@ class ImportMap:
         )
         return mark_safe(f'<script type="importmap">{html}')
 
+    def __eq__(self, other):
+        return isinstance(other, ImportMap) and self._importmap == other._importmap
+
+    def __hash__(self):
+        return hash(self.__str__())
+
     def __add__(self, other):
         if not isinstance(other, ImportMap):
             return NotImplemented
