@@ -1,7 +1,7 @@
 from django.forms import Media
 from django.test import TestCase
 
-from js_asset.media import ExtendedMedia, ImportMap
+from js_asset.media import ImportMap
 
 
 class MediaTest(TestCase):
@@ -10,13 +10,13 @@ class MediaTest(TestCase):
         media_bc = Media(js=["b.js", "c.js"])
         media_ac = Media(js=["a.js", "c.js"])
 
-        extended_a = ExtendedMedia(
+        extended_a = Media(
             js=[
                 "a.js",
                 ImportMap({"imports": {"library-a": "/static/library-a.abcdef.js"}}),
             ]
         )
-        extended_b = ExtendedMedia(
+        extended_b = Media(
             js=[
                 ImportMap({"imports": {"htmx.org": "/static/htmx.org.012345.js"}}),
                 "b.js",
