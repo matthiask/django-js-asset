@@ -98,36 +98,48 @@ Extremely experimental importmap support
 
 django-js-asset ships an extremely experimental implementation adding support
 for using `importmaps
-<https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap>`_
-through ``forms.Media``. Importmap objects are automatically merged and appear
-before all other JavaScript scripts.
-
-Browser support for multiple importmaps is not generally available; at the time
-of writing (February 2025) it's not even clear if Mozilla wants to support them
-ever, so merging importmaps is -- for now -- the only viable way to use them in
-production.
+<https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap>`_.
 
 One of the reasons why importmaps are useful when used with Django is that this
 easily allows us to use the file name mangling offered for example by Django
 ``ManifestStaticFilesStorage`` without having to rewrite import statements in
 scripts themselves.
 
-The ``ImportMap`` object can be imported from ``js_asset.media``; importing it
-automatically monkeypatches the ``forms.Media`` class with importmap support.
+Browser support for multiple importmaps is not generally available; at the time
+of writing (February 2025) it's not even clear if Mozilla wants to support them
+ever, so merging importmaps is -- for now -- the only viable way to use them in
+production. Because of this the implementation uses a global importmap variable
+where new entries can be added to and a context processor to make the importmap
+available to templates.
+
+The ``importmap`` object can be imported from ``js_asset``. Usage is as follows:
 
 .. code-block:: python
 
     # static is an alias for Django's static() function used in the
     # {% static %} template tag.
-    from js_asset import JS, static
-    from js_asset.media import ImportMap
+    from js_asset import JS, static, importmap
 
+    # Run this during project initialization, e.g. in App.ready or whereever.
+    importmap.update({
+        "imports": {
+            "my-library": static("my-library.js"),
+        },
+    })
+
+You have to add ``js_asset.importmap.context_processor`` to the list of context
+processors in your settings (or choose some other way of making the
+``importmap`` object available in templates) and add ``{{ importmap }}``
+somewhere in your base template, preferrably at the top before including any
+scripts.
+
+When you've done that you can start profiting from the importmap by adding
+JavaScript modules:
+
+.. code-block:: python
+
+    # Example for adding a code.js JavaScript *module*
     forms.Media(js=[
-        ImportMap({
-            "imports": {
-                "my-library": static("my-library.js"),
-            },
-        }),
         JS("code.js", {"type": "module"}),
     ])
 
