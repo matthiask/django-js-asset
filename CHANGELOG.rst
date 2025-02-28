@@ -7,9 +7,14 @@ Change log
 Next version
 ~~~~~~~~~~~~
 
+
+3.1 (2025-02-28)
+~~~~~~~~~~~~~~~~
+
 - Made the ``id`` argument to ``JSON`` keyword-only. Also made the ``inline``
   argument to ``CSS`` keyword-only.
 - Added the ``media`` attribute to ``CSS`` classes.
+- Added experimental support for shipping importmaps.
 
 
 3.0 (2024-12-17)
