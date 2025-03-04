@@ -7,6 +7,8 @@ Change log
 Next version
 ~~~~~~~~~~~~
 
+- Added a ``static_lazy`` helper.
+
 
 3.1 (2025-02-28)
 ~~~~~~~~~~~~~~~~
