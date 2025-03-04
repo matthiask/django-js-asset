@@ -127,8 +127,8 @@ The ``importmap`` object can be imported from ``js_asset``. Usage is as follows:
         },
     })
 
-You have to add ``js_asset.importmap.context_processor`` to the list of context
-processors in your settings (or choose some other way of making the
+You have to add ``js_asset.context_processors.importmap`` to the list of
+context processors in your settings (or choose some other way of making the
 ``importmap`` object available in templates) and add ``{{ importmap }}``
 somewhere in your base template, preferrably at the top before including any
 scripts.

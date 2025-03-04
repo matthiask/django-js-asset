@@ -4,5 +4,4 @@ import contextlib
 
 
 with contextlib.suppress(ImportError):
-    from js_asset.importmap import *  # noqa: F403
     from js_asset.js import *  # noqa: F403

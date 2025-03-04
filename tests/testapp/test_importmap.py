@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from js_asset.importmap import ImportMap
+from js_asset.js import ImportMap
 
 
 class MediaTest(TestCase):
