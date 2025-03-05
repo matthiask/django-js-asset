@@ -116,16 +116,18 @@ The ``importmap`` object can be imported from ``js_asset``. Usage is as follows:
 
 .. code-block:: python
 
-    # static is an alias for Django's static() function used in the
+    # static is a lazy version of Django's static() function used in the
     # {% static %} template tag.
-    from js_asset import JS, static, importmap
+    from js_asset import JS, static_lazy, importmap
 
     # Run this during project initialization, e.g. in App.ready or whereever.
     importmap.update({
         "imports": {
-            "my-library": static("my-library.js"),
+            "my-library": static_lazy("my-library.js"),
         },
     })
+
+The importmap should be initialized on server startup, not later.
 
 You have to add ``js_asset.context_processors.importmap`` to the list of
 context processors in your settings (or choose some other way of making the
@@ -134,12 +136,18 @@ somewhere in your base template, preferrably at the top before including any
 scripts.
 
 When you've done that you can start profiting from the importmap by adding
-JavaScript modules:
+JavaScript modules. When using media objects in the Django admin you also have
+to add the importmap to the list of JavaScript assets if you do not want to add
+the ``{{ importmap }}`` tag to your admin base templates. This will cause the
+importmap to be added (at least) twice to the HTML output but since the
+contents should be identical this doesn't hurt. (I'm hoping to find better ways
+to integrate this.)
 
 .. code-block:: python
 
     # Example for adding a code.js JavaScript *module*
     forms.Media(js=[
+        importmap,
         JS("code.js", {"type": "module"}),
     ])
 
