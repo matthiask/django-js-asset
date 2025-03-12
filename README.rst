@@ -133,21 +133,28 @@ You have to add ``js_asset.context_processors.importmap`` to the list of
 context processors in your settings (or choose some other way of making the
 ``importmap`` object available in templates) and add ``{{ importmap }}``
 somewhere in your base template, preferrably at the top before including any
-scripts.
+scripts. This is especially important if you're using some way of replacing
+parts of the website after the initial load with parts also containing scripts,
+such as `htmx <https://htmx.org/>`__.
 
 When you've done that you can start profiting from the importmap by adding
 JavaScript modules. When using media objects in the Django admin you also have
-to add the importmap to the list of JavaScript assets if you do not want to add
-the ``{{ importmap }}`` tag to your admin base templates. This will cause the
-importmap to be added (at least) twice to the HTML output but since the
-contents should be identical this doesn't hurt. (I'm hoping to find better ways
-to integrate this.)
+to add the importmap to the list of JavaScript assets via
+``forms.Media(js=[...])`` if you do not want to add the ``{{ importmap }}`` tag
+to your admin base templates.
+
+If you're using the same widget for the admin interface as for the rest of your
+site, adding the importmap to the ``js`` list will mean that your HTML contains
+the importmap twice. This doesn't hurt a lot since the contents should be
+identical. Ways to work around it include either only ever using ``{{ importmap
+}}`` or ``{{ form.media }}`` on a given page (if possible) or using different
+widget classes for the admin than for the rest of your site.
 
 .. code-block:: python
 
     # Example for adding a code.js JavaScript *module*
     forms.Media(js=[
-        importmap,
+        importmap,  # See paragraph above!
         JS("code.js", {"type": "module"}),
     ])
 
