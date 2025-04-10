@@ -11,6 +11,11 @@ Next version
 - Added full CSP support for all object-based media classes:
   - Added ``attrs`` parameter to ``CSS``, ``JSON``, and updated ``ImportMap`` constructor to accept attributes
   - All classes now support adding a ``nonce`` attribute for CSP security
+- Added comprehensive CSP support through the ``js_asset.contrib.csp`` module:
+  - Added ``CSPMedia`` class for automatic nonce application
+  - Added ``CSPMediaMixin`` for convenient widget integration
+  - Added ``CSPNonceMiddleware`` for automatic nonce generation
+  - Added ``csp_context_processor`` for template integration
 
 
 3.1 (2025-02-28)

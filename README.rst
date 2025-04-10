@@ -97,6 +97,77 @@ At the time of writing this app is compatible with Django 4.2 and better
 definitive answers.
 
 
+Content Security Policy (CSP) Support
+====================================
+
+django-js-asset provides comprehensive support for Content Security Policy (CSP)
+through the use of nonce attributes. This feature is available in two ways:
+
+1. Individual asset objects can accept nonce attributes as shown above.
+
+2. Automatic CSP support through the CSPMedia class (recommended):
+
+.. code-block:: python
+
+    # In your settings.py
+    MIDDLEWARE = [
+        # ...
+        'js_asset.contrib.csp.CSPNonceMiddleware',
+        # ...
+    ]
+
+    TEMPLATES = [
+        {
+            # ...
+            'OPTIONS': {
+                'context_processors': [
+                    # ...
+                    'js_asset.contrib.csp.csp_context_processor',
+                ],
+            },
+        },
+    ]
+
+    # Optional CSP settings
+    CSP_ENABLED = True
+    CSP_NONCE_LENGTH = 16
+    CSP_DEFAULT_SRC = ["'self'"]
+    CSP_SCRIPT_SRC = ["'self'"]
+    CSP_STYLE_SRC = ["'self'"]
+
+Then use CSPMedia in your forms/widgets:
+
+.. code-block:: python
+
+    from js_asset import CSPMediaMixin, get_csp_media, apply_csp_nonce
+    from django.forms import Media
+
+    # Option 1: Use get_csp_media helper (recommended)
+    def media(self):
+        return get_csp_media(js=['script.js'], css={'all': ['style.css']})
+
+    # Option 2: Use apply_csp_nonce with an existing Media object
+    def media(self):
+        base_media = Media(js=['script.js'], css={'all': ['style.css']})
+        return apply_csp_nonce(base_media, request.csp_nonce)
+
+    # Option 3: Use the CSPMediaMixin in your widget (easiest)
+    class MyWidget(CSPMediaMixin, forms.Widget):
+        class Media:
+            js = ['script.js']
+            css = {'all': ['style.css']}
+
+The middleware will automatically:
+
+1. Generate a unique nonce for each request
+2. Make it available as request.csp_nonce
+3. Add it to all script and style tags in your media
+4. Optionally add a Content-Security-Policy header with the nonce
+
+This approach is particularly useful for automatically adding CSP nonces to existing
+widgets and forms without having to modify their Media declarations.
+
+
 Extremely experimental importmap support
 ========================================
 
