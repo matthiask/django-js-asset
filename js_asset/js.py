@@ -23,17 +23,32 @@ class CSS:
     src: str
     inline: bool = field(default=False, kw_only=True)
     media: str = "all"
+    attrs: dict[str, Any] = field(default_factory=dict, kw_only=True)
 
     def __hash__(self):
         return hash(self.__str__())
 
     def __str__(self):
         if self.inline:
-            return format_html('<style media="{}">{}</style>', self.media, self.src)
+            if not self.attrs:
+                return format_html('<style media="{}">{}</style>', self.media, self.src)
+            return format_html(
+                '<style media="{}"{}>{}</style>',
+                self.media,
+                mark_safe(flatatt(self.attrs)),
+                self.src,
+            )
+        if not self.attrs:
+            return format_html(
+                '<link href="{}" media="{}" rel="stylesheet">',
+                static_if_relative(self.src),
+                self.media,
+            )
         return format_html(
-            '<link href="{}" media="{}" rel="stylesheet">',
+            '<link href="{}" media="{}" rel="stylesheet"{}>',
             static_if_relative(self.src),
             self.media,
+            mark_safe(flatatt(self.attrs)),
         )
 
 
@@ -59,25 +74,36 @@ class JS:
 class JSON:
     data: dict[str, Any]
     id: str | None = field(default="", kw_only=True)
+    attrs: dict[str, Any] = field(default_factory=dict, kw_only=True)
 
     def __hash__(self):
         return hash(self.__str__())
 
     def __str__(self):
-        return json_script(self.data, self.id)
+        if not self.attrs:
+            return json_script(self.data, self.id)
+
+        script = json_script(self.data, self.id)
+        # Insert attributes before the closing tag
+        if self.attrs:
+            attrs_str = flatatt(self.attrs)
+            script = script.replace(">", f"{attrs_str}>", 1)
+        return mark_safe(script)
 
 
 @html_safe
 class ImportMap:
-    def __init__(self, importmap):
+    def __init__(self, importmap, attrs=None):
         self._importmap = importmap
+        self._attrs = attrs or {}
 
     def __str__(self):
         if self._importmap:
             html = json_script(self._importmap).removeprefix(
                 '<script type="application/json">'
             )
-            return mark_safe(f'<script type="importmap">{html}')
+            attrs_str = flatatt(self._attrs) if self._attrs else ""
+            return mark_safe(f'<script type="importmap"{attrs_str}>{html}')
         return ""
 
     def update(self, other):

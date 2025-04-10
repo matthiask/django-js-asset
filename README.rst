@@ -14,7 +14,7 @@ Usage
 =====
 
 Use this to insert a script tag via ``forms.Media`` containing additional
-attributes (such as ``id`` and ``data-*`` for CSP-compatible data
+attributes (such as ``id``, ``nonce`` for CSP support, and ``data-*`` for CSP-compatible data
 injection.):
 
 .. code-block:: python
@@ -25,6 +25,7 @@ injection.):
         JS("asset.js", {
             "id": "asset-script",
             "data-answer": "42",
+            "nonce": "{{ request.csp_nonce }}",  # For CSP support
         }),
     ])
 
@@ -34,7 +35,7 @@ now contain a script tag as follows, without line breaks:
 .. code-block:: html
 
     <script type="text/javascript" src="/static/asset.js"
-        data-answer="42" id="asset-script"></script>
+        data-answer="42" id="asset-script" nonce="random-nonce-value"></script>
 
 The attributes are automatically escaped. The data attributes may now be
 accessed inside ``asset.js``:
@@ -65,21 +66,24 @@ So, you can add everything at once:
 
     from js_asset import CSS, JS, JSON
 
+    # Get the CSP nonce from the request context
+    nonce = request.csp_nonce
+
     forms.Media(js=[
-        JSON({"configuration": 42}, id="widget-configuration"),
-        CSS("widget/style.css"),
-        CSS("p{color:red;}", inline=True),
-        JS("widget/script.js", {"type": "module"}),
+        JSON({"configuration": 42}, id="widget-configuration", attrs={"nonce": nonce}),
+        CSS("widget/style.css", attrs={"nonce": nonce}),
+        CSS("p{color:red;}", inline=True, attrs={"nonce": nonce}),
+        JS("widget/script.js", {"type": "module", "nonce": nonce}),
     ])
 
 This produces:
 
 .. code-block:: html
 
-    <script id="widget-configuration" type="application/json">{"configuration": 42}</script>
-    <link href="/static/widget/style.css" media="all" rel="stylesheet">
-    <style media="all">p{color:red;}</style>
-    <script src="/static/widget/script.js" type="module"></script>
+    <script id="widget-configuration" type="application/json" nonce="random-nonce-value">{"configuration": 42}</script>
+    <link href="/static/widget/style.css" media="all" rel="stylesheet" nonce="random-nonce-value">
+    <style media="all" nonce="random-nonce-value">p{color:red;}</style>
+    <script src="/static/widget/script.js" type="module" nonce="random-nonce-value"></script>
 
 
 
@@ -152,10 +156,15 @@ widget classes for the admin than for the rest of your site.
 
 .. code-block:: python
 
-    # Example for adding a code.js JavaScript *module*
+    # Example for adding a code.js JavaScript *module* with CSP support
+    nonce = request.csp_nonce
+
+    # Create importmap with CSP nonce
+    importmap_with_nonce = ImportMap(importmap._importmap, {"nonce": nonce})
+
     forms.Media(js=[
-        importmap,  # See paragraph above!
-        JS("code.js", {"type": "module"}),
+        importmap_with_nonce,  # See paragraph above!
+        JS("code.js", {"type": "module", "nonce": nonce}),
     ])
 
 The code in ``code.js`` can now use a JavaScript import to import assets from
