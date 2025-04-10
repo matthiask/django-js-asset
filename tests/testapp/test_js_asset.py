@@ -83,6 +83,17 @@ class AssetTest(TestCase):
             '<style media="all">p{color:red}</style>',
         )
 
+        # Test with CSP nonce attribute
+        self.assertEqual(
+            str(CSS("app/style.css", attrs={"nonce": "random-nonce"})),
+            '<link href="/static/app/style.css" media="all" rel="stylesheet" nonce="random-nonce">',
+        )
+
+        self.assertEqual(
+            str(CSS("p{color:red}", inline=True, attrs={"nonce": "random-nonce"})),
+            '<style media="all" nonce="random-nonce">p{color:red}</style>',
+        )
+
     def test_json(self):
         self.assertEqual(
             str(JSON({"hello": "world"}, id="hello")),
@@ -92,4 +103,10 @@ class AssetTest(TestCase):
         self.assertEqual(
             str(JSON({"hello": "world"})),
             '<script type="application/json">{"hello": "world"}</script>',
+        )
+
+        # Test with CSP nonce attribute
+        self.assertEqual(
+            str(JSON({"hello": "world"}, id="hello", attrs={"nonce": "random-nonce"})),
+            '<script id="hello" type="application/json" nonce="random-nonce">{"hello": "world"}</script>',
         )
