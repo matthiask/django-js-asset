@@ -141,7 +141,8 @@ When you've done that you can start profiting from the importmap by adding
 JavaScript modules. When using media objects in the Django admin you also have
 to add the importmap to the list of JavaScript assets via
 ``forms.Media(js=[...])`` if you do not want to add the ``{{ importmap }}`` tag
-to your admin base templates.
+to your admin base templates. You have to ensure that the importmap is included
+before any other JavaScript modules.
 
 If you're using the same widget for the admin interface as for the rest of your
 site, adding the importmap to the ``js`` list will mean that your HTML contains
