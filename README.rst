@@ -166,3 +166,36 @@ programming time:
 .. code-block:: javascript
 
     import { Stuff } from "my-library"
+
+One-off modifications to importmaps, for example in views
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you want to add to the base importmap in a view, you can do it as follows:
+
+.. code-block:: python
+
+    # Again, static is the same as Django's static() helper
+    from js_asset import importmap, static
+
+    def view(request):
+        # ...
+
+        specific_importmap = {
+            "imports": {
+                "stuff": static("stuff.js"),
+            },
+        }
+
+        return render(
+            request,
+            "...",
+            {"importmap": importmap | specific_importmap},
+        )
+
+Of course this only works if the importmap is rendered in the template and not
+passed through ``forms.Media``. This isn't perfect of course, so I'm still
+looking into ways to improve the behavior.
+
+When using ``importmap.update(...)`` you are updating the global importmap
+object. When you are OR-ing importmap objects together you get a new importmap
+object which is unrelated to the global importmap.
