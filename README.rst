@@ -14,7 +14,7 @@ Usage
 =====
 
 Use this to insert a script tag via ``forms.Media`` containing additional
-attributes (such as ``id`` and ``data-*`` for CSP-compatible data
+attributes (such as ``id``, ``nonce`` for CSP support, and ``data-*`` for CSP-compatible data
 injection.):
 
 .. code-block:: python
@@ -25,6 +25,7 @@ injection.):
         JS("asset.js", {
             "id": "asset-script",
             "data-answer": "42",
+            "nonce": "{{ request.csp_nonce }}",  # For CSP support
         }),
     ])
 
@@ -34,7 +35,7 @@ now contain a script tag as follows, without line breaks:
 .. code-block:: html
 
     <script type="text/javascript" src="/static/asset.js"
-        data-answer="42" id="asset-script"></script>
+        data-answer="42" id="asset-script" nonce="random-nonce-value"></script>
 
 The attributes are automatically escaped. The data attributes may now be
 accessed inside ``asset.js``:
@@ -65,21 +66,24 @@ So, you can add everything at once:
 
     from js_asset import CSS, JS, JSON
 
+    # Get the CSP nonce from the request context
+    nonce = request.csp_nonce
+
     forms.Media(js=[
-        JSON({"configuration": 42}, id="widget-configuration"),
-        CSS("widget/style.css"),
-        CSS("p{color:red;}", inline=True),
-        JS("widget/script.js", {"type": "module"}),
+        JSON({"configuration": 42}, id="widget-configuration", attrs={"nonce": nonce}),
+        CSS("widget/style.css", attrs={"nonce": nonce}),
+        CSS("p{color:red;}", inline=True, attrs={"nonce": nonce}),
+        JS("widget/script.js", {"type": "module", "nonce": nonce}),
     ])
 
 This produces:
 
 .. code-block:: html
 
-    <script id="widget-configuration" type="application/json">{"configuration": 42}</script>
-    <link href="/static/widget/style.css" media="all" rel="stylesheet">
-    <style media="all">p{color:red;}</style>
-    <script src="/static/widget/script.js" type="module"></script>
+    <script id="widget-configuration" type="application/json" nonce="random-nonce-value">{"configuration": 42}</script>
+    <link href="/static/widget/style.css" media="all" rel="stylesheet" nonce="random-nonce-value">
+    <style media="all" nonce="random-nonce-value">p{color:red;}</style>
+    <script src="/static/widget/script.js" type="module" nonce="random-nonce-value"></script>
 
 
 
@@ -91,6 +95,77 @@ At the time of writing this app is compatible with Django 4.2 and better
 `tox configuration
 <https://github.com/matthiask/django-js-asset/blob/main/tox.ini>`_ for
 definitive answers.
+
+
+Content Security Policy (CSP) Support
+====================================
+
+django-js-asset provides comprehensive support for Content Security Policy (CSP)
+through the use of nonce attributes. This feature is available in two ways:
+
+1. Individual asset objects can accept nonce attributes as shown above.
+
+2. Automatic CSP support through the CSPMedia class (recommended):
+
+.. code-block:: python
+
+    # In your settings.py
+    MIDDLEWARE = [
+        # ...
+        'js_asset.contrib.csp.CSPNonceMiddleware',
+        # ...
+    ]
+
+    TEMPLATES = [
+        {
+            # ...
+            'OPTIONS': {
+                'context_processors': [
+                    # ...
+                    'js_asset.contrib.csp.csp_context_processor',
+                ],
+            },
+        },
+    ]
+
+    # Optional CSP settings
+    CSP_ENABLED = True
+    CSP_NONCE_LENGTH = 16
+    CSP_DEFAULT_SRC = ["'self'"]
+    CSP_SCRIPT_SRC = ["'self'"]
+    CSP_STYLE_SRC = ["'self'"]
+
+Then use CSPMedia in your forms/widgets:
+
+.. code-block:: python
+
+    from js_asset import CSPMediaMixin, get_csp_media, apply_csp_nonce
+    from django.forms import Media
+
+    # Option 1: Use get_csp_media helper (recommended)
+    def media(self):
+        return get_csp_media(js=['script.js'], css={'all': ['style.css']})
+
+    # Option 2: Use apply_csp_nonce with an existing Media object
+    def media(self):
+        base_media = Media(js=['script.js'], css={'all': ['style.css']})
+        return apply_csp_nonce(base_media, request.csp_nonce)
+
+    # Option 3: Use the CSPMediaMixin in your widget (easiest)
+    class MyWidget(CSPMediaMixin, forms.Widget):
+        class Media:
+            js = ['script.js']
+            css = {'all': ['style.css']}
+
+The middleware will automatically:
+
+1. Generate a unique nonce for each request
+2. Make it available as request.csp_nonce
+3. Add it to all script and style tags in your media
+4. Optionally add a Content-Security-Policy header with the nonce
+
+This approach is particularly useful for automatically adding CSP nonces to existing
+widgets and forms without having to modify their Media declarations.
 
 
 Extremely experimental importmap support
@@ -153,10 +228,15 @@ widget classes for the admin than for the rest of your site.
 
 .. code-block:: python
 
-    # Example for adding a code.js JavaScript *module*
+    # Example for adding a code.js JavaScript *module* with CSP support
+    nonce = request.csp_nonce
+
+    # Create importmap with CSP nonce
+    importmap_with_nonce = ImportMap(importmap._importmap, {"nonce": nonce})
+
     forms.Media(js=[
-        importmap,  # See paragraph above!
-        JS("code.js", {"type": "module"}),
+        importmap_with_nonce,  # See paragraph above!
+        JS("code.js", {"type": "module", "nonce": nonce}),
     ])
 
 The code in ``code.js`` can now use a JavaScript import to import assets from

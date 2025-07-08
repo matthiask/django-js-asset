@@ -40,3 +40,17 @@ class MediaTest(TestCase):
             """\
 <script type="importmap">{"imports": {"a": "/static/a.js", "b": "/static/b.js", "/app/": "./original-app/", "/app/helper": "./helper/index.mjs"}, "integrity": {"/static/a.js": "sha384-blub-a", "/static/b.js": "sha384-blub-b"}, "scopes": {"/js": {"/app/": "./js-app/"}}}</script>""",
         )
+
+    def test_csp_nonce(self):
+        # Test with CSP nonce attribute
+        importmap = ImportMap(
+            {
+                "imports": {"a": "/static/a.js"},
+            },
+            attrs={"nonce": "random-nonce"},
+        )
+
+        self.assertEqual(
+            str(importmap),
+            '<script type="importmap" nonce="random-nonce">{"imports": {"a": "/static/a.js"}}</script>',
+        )
